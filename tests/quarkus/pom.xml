@@ -106,11 +106,6 @@
     </dependency>
 
     <!-- Cucumber framework for Quarkus-->
-    <dependency>
-      <groupId>io.quarkiverse.cucumber</groupId>
-      <artifactId>quarkus-cucumber</artifactId>
-      <version>1.0.0</version>
-    </dependency>
 
     <!-- Hawtio -->
     <dependency>
@@ -189,7 +184,11 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <skip>false</skip>
+          <skipTests>false</skipTests>
           <systemPropertyVariables>
+            <hawtio.url>${hawtio.url}</hawtio.url>
+            <hawtio.managementPort>8081</hawtio.managementPort>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
