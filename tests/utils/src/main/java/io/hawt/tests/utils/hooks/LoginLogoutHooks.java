@@ -1,4 +1,4 @@
-package io.hawt.tests.spring.boot.hooks;
+package io.hawt.tests.utils.hooks;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
