@@ -5,6 +5,7 @@ on:
     branches:
       - 3.x
       - 4.x
+      - workflow-push-fix
     paths-ignore:
       - "**.md"
   workflow_dispatch:
@@ -14,6 +15,7 @@ env:
 
 jobs:
   build:
+    if: github.repository_owner == 'hawtio'
     strategy:
       matrix:
         java: ['11', '17']
