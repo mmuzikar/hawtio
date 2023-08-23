@@ -1,13 +1,16 @@
 package io.hawt.tests.spring.boot;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
 import io.hawt.springboot.HawtioPlugin;
 import io.hawt.web.auth.AuthenticationConfiguration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +30,9 @@ public class SpringBootService {
         System.setProperty(AuthenticationConfiguration.HAWTIO_AUTHENTICATION_ENABLED, "false");
         SpringApplication.run(SpringBootService.class, args);
     }
+
+    @Value("${spring.profiles.active:}")
+    private String activeProfiles;
 
     /**
      * Loading a sample plugin.
@@ -60,6 +66,10 @@ public class SpringBootService {
      */
     @PostConstruct
     public void init() {
+        if (activeProfiles.contains("keycloak")) {
+            System.setProperty(JAVA_SECURITY_AUTH_LOGIN_CONFIG, this.getClass().getClassLoader().getResource("login-keycloak.conf").toExternalForm());
+        }
+
         Optional.ofNullable(this.getClass().getClassLoader().getResource("login.conf"))
             .ifPresent(loginResource -> setSystemPropertyIfNotSet(JAVA_SECURITY_AUTH_LOGIN_CONFIG, loginResource.toExternalForm()));
         LOG.info("Using loginResource {} : {}", JAVA_SECURITY_AUTH_LOGIN_CONFIG, System.getProperty(JAVA_SECURITY_AUTH_LOGIN_CONFIG));

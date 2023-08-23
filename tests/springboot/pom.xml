@@ -162,6 +162,33 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>keycloak</id>
+      <dependencies>
+        <dependency>
+          <groupId>io.hawt</groupId>
+          <artifactId>hawtio-springboot-keycloak</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration combine.self="append">
+              <profiles>
+                <profile>keycloak</profile>
+                <profile>default</profile>
+              </profiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
