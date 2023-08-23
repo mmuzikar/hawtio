@@ -132,6 +132,12 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc</artifactId>
+    </dependency>
+
+
     <!-- Minimal test dependencies to *-deployment artifacts for consistent Hawtio project build order -->
     <dependency>
       <groupId>io.hawt</groupId>
