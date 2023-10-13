@@ -1,5 +1,5 @@
 ARG JAVA_VERSION=11
-FROM registry.access.redhat.com/ubi8/openjdk-${JAVA_VERSION}
+FROM eclipse-temurin:${JAVA_VERSION}
 
 ENV LANGUAGE='en_US:en'
 
