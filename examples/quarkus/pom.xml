@@ -123,6 +123,12 @@
       <artifactId>hawtio-quarkus</artifactId>
     </dependency>
 
+    <!-- Deploying to openshift -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-openshift</artifactId>
+    </dependency>
+
     <!--
       Hawtio example plugin project
       Since static resources are packaged under META-INF/resources in the JAR,
