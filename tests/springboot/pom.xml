@@ -35,6 +35,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>io.hawt</groupId>
+        <artifactId>hawtio-bom</artifactId>
+        <version>${hawtio.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -98,7 +105,7 @@
     <dependency>
       <groupId>io.hawt</groupId>
       <artifactId>hawtio-springboot</artifactId>
-      <version>${project.version}</version>
+      <version>${hawtio.bom.version}</version>
     </dependency>
 
     <!--
@@ -108,7 +115,7 @@
     <dependency>
       <groupId>io.hawt</groupId>
       <artifactId>hawtio-log-logback</artifactId>
-      <version>${project.version}</version>
+      <version>${hawtio.bom.version}</version>
     </dependency>
 
     <!-- Camel -->

@@ -24,6 +24,7 @@
     <cucumber-version>7.14.0</cucumber-version>
     <testcontainers-version>1.18.3</testcontainers-version>
     <awaitility-version>4.2.0</awaitility-version>
+    <hawtio.bom.version>${project.version}</hawtio.bom.version>
   </properties>
 
   <modules>
