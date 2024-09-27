@@ -47,6 +47,8 @@ public class TestConfiguration {
     public static final String OPENSHIFT_KUBECONFIG = "io.hawt.test.openshift.kubeconfig";
     public static final String OPENSHIFT_NAMESPACE_DELETE = "io.hawt.test.openshift.namespace.delete";
     public static final String OPENSHIFT_INDEX_IMAGE = "io.hawt.test.openshift.index.image";
+    public static final String HAWTIO_ONLINE_IMAGE_REPOSITORY = "io.hawt.test.online.image.repository";
+    public static final String HAWTIO_ONLINE_GATEWAY_IMAGE_REPOSITORY = "io.hawt.test.online.gateway.image.repository";
     private static final String NAMESPACE_PREFIX = "hawtio-tests-";
 
     private static AppDeployment deployment;
@@ -126,8 +128,12 @@ public class TestConfiguration {
         return null;
     }
 
-    public static String getHawtioOnlineSHA() {
-        return getProperty("io.hawt.test.online.sha");
+    public static String getHawtioOnlineImageRepository() {
+        return getProperty(HAWTIO_ONLINE_IMAGE_REPOSITORY);
+    }
+
+    public static String getHawtioOnlineGatewayImageRepository() {
+        return getProperty(HAWTIO_ONLINE_GATEWAY_IMAGE_REPOSITORY);
     }
 
     public static String getConnectAppUsername() {

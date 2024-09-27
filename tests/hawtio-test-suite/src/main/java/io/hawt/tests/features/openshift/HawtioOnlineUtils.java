@@ -28,8 +28,6 @@ public class HawtioOnlineUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(HawtioOnlineUtils.class);
 
-    private static final boolean OPERATOR_WORKAROUND = TestConfiguration.getHawtioOnlineSHA() != null;
-
     public static Deployment deployApplication(String name, String runtime, String namespace, String tag) {
         //@formatter:off
         List<EnvVar> envVars = new LinkedList<>();
@@ -159,17 +157,23 @@ public class HawtioOnlineUtils {
                 .getStatus().getPhase().equals("Complete");
         }, "Waiting for the installplan to finish", Duration.ofMinutes(3));
 
-        if (OPERATOR_WORKAROUND) {
+        if (TestConfiguration.getHawtioOnlineGatewayImageRepository() != null || TestConfiguration.getHawtioOnlineImageRepository() != null) {
             WaitUtils.withRetry(() -> {
                 final ClusterServiceVersion csv = operatorhub.clusterServiceVersions().withName(startingCSV).get();
-                csv.getSpec().getInstall().getSpec().getDeployments().get(0).getSpec().getTemplate().getSpec().getContainers().get(0).getEnv()
-                    .add(new EnvVar("IMAGE_VERSION", TestConfiguration.getHawtioOnlineSHA(), null));
+                if (TestConfiguration.getHawtioOnlineImageRepository() != null) {
+                    csv.getSpec().getInstall().getSpec().getDeployments().get(0).getSpec().getTemplate().getSpec().getContainers().get(0).getEnv()
+                        .add(new EnvVar("IMAGE_REPOSITORY", TestConfiguration.getHawtioOnlineImageRepository(), null));
+                }
+                if (TestConfiguration.getHawtioOnlineGatewayImageRepository() != null) {
+                    csv.getSpec().getInstall().getSpec().getDeployments().get(0).getSpec().getTemplate().getSpec().getContainers().get(0).getEnv()
+                        .add(new EnvVar("GATEWAY_IMAGE_REPOSITORY", TestConfiguration.getHawtioOnlineGatewayImageRepository(), null));
+                }
                 operatorhub.clusterServiceVersions().withName(startingCSV).patch(csv);
             }, 5, Duration.ofSeconds(5));
 
             WaitUtils.waitFor(() -> OpenshiftClient.get().pods().withLabel("name", "hawtio-operator").list().getItems().stream().anyMatch(pod ->
-                    pod.getSpec().getContainers().get(0).getEnv().stream().anyMatch(envVar -> envVar.getName().equalsIgnoreCase("IMAGE_VERSION")) &&
-                        pod.getStatus().getPhase().equalsIgnoreCase("Running")),
+                pod.getSpec().getContainers().stream().anyMatch(container -> container.getEnv().stream().anyMatch(envVar -> envVar.getName().equalsIgnoreCase("IMAGE_REPOSITORY") || envVar.getName().equalsIgnoreCase("GATEWAY_IMAGE_REPOSITORY"))) &&
+                    pod.getStatus().getPhase().equalsIgnoreCase("Running")),
                 "Waiting for the CSV patch to get applied to the operator pod", Duration.ofMinutes(2));
         }
     }
