@@ -22,9 +22,12 @@ Feature:  Checking the functionality of Help page.
       | tab           |
       | Home          |
       | Preferences   |
-      | Connect       |
       | JMX           |
       | Camel         |
+
+    @notOnline # - connect plugin is not accessible in Hawtio Online
+    Examples:
+      | Connect       |
 
     @notHawtioNext # - plugins are not present in hawtio-next CI runs
     Examples:
